@@ -20,6 +20,12 @@ body {
     text-shadow: none;
 }
 
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
 audio,
 canvas,
 iframe,
@@ -74,28 +80,4 @@ img {
 .copyright {
     margin: 0;
     font-size: 75%;
-}
-
-/* ==========================================================================
-   StickyBanner styles
-   ========================================================================== */
-
-.banner-sticky {
-    cursor: pointer;
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    margin: 0;
-    padding: 0.75em;
-    background-color: #000;
-    z-index: 1;
-}
-
-/* ==========================================================================
-   Helper styles
-   ========================================================================== */
-
-.hidden {
-    display: none !important;
 }

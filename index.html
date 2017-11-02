@@ -57,7 +57,7 @@
 
         <script type="text/javascript" src="js/sticky_banner.js"></script>
         <script type="text/javascript">
-            // define namespaced constructor
+            // shorten namespace for constructor function
             var StickyBanner = Kargo.banner.StickyBanner;
 
             // 1. Create a StickyBanner at the top of the viewport
@@ -67,7 +67,7 @@
             });
 
             // 2. Destroy the StickyBanner
-            topBanner.destroy()
+            topBanner.destroy();
 
             // 3. Create a StickyBanner at the bottom of the viewport
             var bottomBanner = new StickyBanner('<img src="http://placeholdit.imgix.net/~text?txtsize=25&bg=ee4e11&txtclr=ffffff&txt=3&w=320&h=50" />', {
