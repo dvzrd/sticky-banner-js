@@ -37,6 +37,8 @@ video {
 
 img {
     display: block;
+    width: 100%;
+    max-width: 25em;
     margin: 0 auto;
 }
 
@@ -73,8 +75,15 @@ img {
 
 .blocker {
     height: 50vh;
-    margin-bottom: 1em;
-    background-color: #f43d11;
+    margin: 1em -0.75em;
+    background-color: #ee4e11;
+}
+
+@media only screen and (min-width: 48em) {
+    .blocker {
+        margin-left: -100vh;
+        margin-right: -100vh;
+    }
 }
 
 .copyright {

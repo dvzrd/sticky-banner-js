@@ -14,9 +14,9 @@
     /**
      * Use strict mode
      *
-     * Using `strict` enhances development,
-     * but can't delete or remove object instances.
-     * Remove `strict` mode in production.
+     * Using `strict` enhances development process,
+     * but restricts you from calling delete or remove on object instances.
+     * Typically you can remove `strict` mode in production.
     */
     'use strict';
 
@@ -45,7 +45,7 @@
                     zIndex: '1',
                     cursor: 'pointer',
                     backgroundColor: '#000',
-                    padding: '0.75em',
+                    padding: '0.25em',
                     margin: '0',
                     width: '100%',
                     position: 'fixed',
@@ -105,7 +105,7 @@
              *
              * @returns a boolean indicating if the object's property is empty.
             */
-            this.isObjectPropertyEmpty = function(object, property) {
+            this.isPropertyEmpty = function(object, property) {
                 return Object.keys(object[property]).length === 0;
             };
 
@@ -176,6 +176,17 @@
                 return string.replace(/([A-Z])/g, '-$1').toLowerCase();
             };
 
+            /**
+             * Removes dot from class selector string.
+             *
+             * @param string to be transformed.
+             *
+             * @returns a clean string without any dots.
+            */
+            this.cleanSelector = function(selector) {
+                return selector.replace(/\./g,'');
+            }
+
             return this.init();  // 'this' refers to Kargo.helper.init()
         }
 
@@ -220,7 +231,6 @@
                 this.config = noConfig ? defaultConfig : config;
 
                 renderBanner(this.html, this.config);
-                console.log('RENDERED ', this.html, this.config);
             };
 
             /**
@@ -234,7 +244,10 @@
                 var banner = this;
 
                 removeBanner(banner);
-                console.log('DESTROYED: ', banner);
+
+                // Destroys the actual object instance (must disable `strict` mode)
+                // banner = null;
+                // delete banner
             };
 
             return this.init(); // `this` refers to Kargo.banner.init()
@@ -359,7 +372,7 @@
     */
     function hasBanner(position) {
         var store = Kargo.store.banners.rendered;
-        var storeEmpty = Kargo.helper.isObjectPropertyEmpty(store, position);
+        var storeEmpty = Kargo.helper.isPropertyEmpty(store, position);
 
         if (!storeEmpty) {
             var bannerPosition = store[position].config.position;
@@ -429,12 +442,32 @@
      * @returns a string of CSS rules used to style generated banner.
     */
     function getBannerStyle(position) {
-        var styleObject = Kargo.config.banners.sticky.style;
+        var styleConfig = Kargo.config.banners.sticky.style;
         var formatForStyling = Kargo.helper.formatForStyling;
-        var bannerStyle = formatForStyling(styleObject);
+        var bannerStyle = formatForStyling(styleConfig);
         var bannerPosition = position + ':0;';
 
         return bannerStyle + ';' + bannerPosition;
+    };
+
+    /**
+     * Checks if sticky blocker element is visibile on the screen.
+     *
+     * @returns a boolean value for each blocker element to confirm if it's visible or not.
+    */
+    function isBlockerVisible() {
+        var isElementVisible = Kargo.helper.isElementVisible;
+        var blockerClass = Kargo.helper.cleanSelector(Kargo.config.selectors.stickyBlocker);
+        var blockers = document.getElementsByClassName(blockerClass);
+        var blocker, value = false;
+
+        for (blocker = 0; blocker < blockers.length; blocker++) {
+            if (isElementVisible(blockers[blocker])) {
+                value = true;
+            }
+        }
+
+        return value;
     };
 
     /**
@@ -445,20 +478,20 @@
      * 3. Shows banner(s) when blocker element is off screen.
     */
     function setBannerDisplay() {
-        var blockerSelector = Kargo.config.selectors.stickyBlocker;
-        var blocker = document.querySelector(blockerSelector);
+        var storedTopBanner = Kargo.store.banners.rendered.top;
+        var storedBottomBanner = Kargo.store.banners.rendered.bottom;
+        var hideTopBanner = storedTopBanner.config.hide;
+        var hideBottomBanner = storedBottomBanner.config.hide;
+        var topBanner = storedTopBanner ? document.getElementById(storedTopBanner.html.id) : null;
+        var bottomBanner = storedBottomBanner ? document.getElementById(storedBottomBanner.html.id) : null;
 
-        // fetch id's of existing banners from store - this.storeBanner
-        // check visibility on multiple blocker elements - loop through array
-        // set display styles for banners marked with hidden class
+        if (topBanner && hideTopBanner) {
+            topBanner.style.display = isBlockerVisible() ? 'none' : 'block';
+        }
 
-        // var banner = document.querySelector('.sticky-banner');
-        // var bannerId = banner.getAttribute('id');
-        // var relativeBanner = document.getElementById(bannerId);
-
-        // relativeBanner.style.display = Kargo.helper.isElementVisible(blocker) ? 'none' : 'block';
-
-        console.log('set banner display');
+        if (bottomBanner && hideBottomBanner) {
+            bottomBanner.style.display = isBlockerVisible() ? 'none' : 'block';
+        }
     }
 
     /**
