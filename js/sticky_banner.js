@@ -63,8 +63,8 @@
      * Object literal for storing references to object instances of banner.
      *
      * Can only hold two object references at a time:
-     * 1. Object reference to top positioned banner.
-     * 2. Object reference to bottom positioned banner.
+     * 1. Object reference for top positioned banner.
+     * 2. Object reference for bottom positioned banner.
     */
     Kargo.store = {
         banners: {

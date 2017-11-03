@@ -7,7 +7,7 @@ A JavaScript Object for constructing a Banner Ad that's affixed to the top or bo
 * Banner remains fixed according to it's configured position as the user scrolls through the page.
 * Banner's display changes whenever a blocker element enters visibility on the screen, if it's configuration is set to hidden.
 
-View the code in `js/sticky_banner.js`.
+View the code in [`js/sticky_banner.js`](https://github.com/dvzrd/sticky-banner-js/blob/master/js/sticky_banner.js).
 
 ### How to use StickyBanner
 
@@ -58,4 +58,4 @@ Multiple instances of a `StickyBanner` can exist at a time, but only one at each
 
 ### Working Examples
 
-Find working examples in `index.html`.
+Find working examples in [`index.html`](https://github.com/dvzrd/sticky-banner-js/blob/master/index.html).
