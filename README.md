@@ -1,4 +1,4 @@
-# Kargo Ad Tech Code Example
+# Ad Tech Code Example
 
 ## StickyBanner
 
